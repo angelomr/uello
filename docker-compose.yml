@@ -1,0 +1,34 @@
+# v2 syntax
+version: '2'
+
+# Named volumes
+volumes:
+  # MySQL Data
+  uello-mysql-data:
+    driver: local
+
+services:
+  # MySQL (5.7)
+  mysql:
+    image: mysql:5.7
+    container_name: uello-mysql
+    volumes:
+      - uello-mysql-data:/var/lib/mysql
+    ports:
+      - "4306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=Password#For#Project@Uello
+      - MYSQL_DATABASE=uello
+      - MYSQL_USER=uello
+      - MYSQL_PASSWORD=uello@test
+
+  # PHP (with Caddy)
+  app:
+    image: ambientum/php:7.3-nginx
+    container_name: uello-app
+    volumes:
+      - .:/var/www/app
+    ports:
+      - "4080:8080"
+    links:
+      - mysql
