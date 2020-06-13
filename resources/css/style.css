@@ -1,8 +1,21 @@
 
 /* CSS for Uello APP */
+
+small {
+    color: gray;
+}
+
 .bg-menu, .bg-menu a, .bg-menu a:hover {
     background-color: var(--red);
     color: var(--white);
     font-weight: bold;
 }
 
+.main-general {
+    padding: 10px;
+}
+
+.row-filters {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

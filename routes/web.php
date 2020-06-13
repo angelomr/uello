@@ -18,7 +18,8 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' =>'customers'], function (){
-    Route::get('/', function () {
+    Route::any('/', function () {
+        
         return view('customers.index');
     });
 });
