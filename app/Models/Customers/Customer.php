@@ -35,9 +35,9 @@ class Customer extends Model
         return $query;
     }
 
-    public function Addresses()
+    public function Address()
     {
-        return $this->hasMany('App\Models\Customers\Address', 'customer_id');
+        return $this->hasOne('App\Models\Customers\Address', 'customer_id');
     }
 
 }

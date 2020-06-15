@@ -14,9 +14,15 @@ class CustomerController extends Controller
 {
     public function index(Request $request)
     {
-        $customers = Customer::filters()->orderBy('name');
-        
-        $customers = $customers->with('Addresses')->paginate(5);
+        $customers = Customer::filters()
+            ->orderBy('name')
+            ->with('Address');
+
+        if (isset($request->exportCSV)) {
+            return $this->export($customers);
+        }
+
+        $customers = $customers->paginate(5);
 
         return view('customers.index', compact('request', 'customers'));
     }
@@ -24,13 +30,12 @@ class CustomerController extends Controller
     public function import(Request $request)
     {
         if ($request->customerCSV) {
-                
             $file = fopen($request->customerCSV->getRealPath(), "r");
             $qtt = 0;
             $sucess = 0;
             echo '<pre>';
             while (($row = fgetcsv($file, 10000, ";")) !== FALSE) {
-                if ($qtt > 0 && trim($row[0]) !="") {
+                if ($qtt > 0 && trim($row[0]) != "") {
                     $customer = $this->save($row);
                     $this->saveAddress($customer->id, $row);
                     $sucess++;
@@ -82,4 +87,16 @@ class CustomerController extends Controller
         $address->save();
     }
 
+    public function export($customers)
+    {
+        $customers = $customers->get();
+        
+        header('Content-Type:text/csv;charset=UTF-8');
+        header('Content-Disposition:attachment; filename=clientes.csv');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: private', false);
+        
+        return view('customers.csv', compact('customers'))->render();
+    }
 }

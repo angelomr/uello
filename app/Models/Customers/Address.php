@@ -40,4 +40,9 @@ class Address extends Model
         $address->city = $other[2];
         return $address;        
     }
+
+    public function getFullAddress() 
+    {
+        return "{$this->address}, {$this->number} {$this->complement} - {$this->neighborhood} - {$this->city}";
+    }
 }

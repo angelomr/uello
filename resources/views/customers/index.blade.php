@@ -20,11 +20,11 @@
                     <i class="fa fa-search"></i> 
                     Pesquisar
                 </button>
-                <button type="submit" class="btn btn-info" name="export" value="CSV">
+                <button type="submit" class="btn btn-info" name="exportCSV" value="CSV">
                     <i class="fa fa-file-excel-o"></i>
                     Exportar CSV
                 </button>
-                <button type="button" class="btn btn-secondary" name="import" id="importCSV" value="CSV" onclick="document.getElementById('customerCSV').click();">
+                <button type="button" class="btn btn-secondary" name="importCSV" id="importCSV" value="CSV" onclick="document.getElementById('customerCSV').click();">
                     <i class="fa fa-file-excel-o"></i>
                     Importar CSV
                 </button>
@@ -52,7 +52,7 @@
                     <td>{{ $customer->email }}</td>
                     <td>{{ isset($customer->date_birth) ? $customer->date_birth->format('d/m/Y') : '' }}</td>
                     <td>{{ $customer->cpf }}</td>
-                    <td>{{ $customer->Addresses }}</td>
+                    <td>{{ isset($customer->Address) ? $customer->Address->getFullAddress() : '' }}</td>
                 </tr>
                 @endforeach
             </tbody>
