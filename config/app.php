@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'UELLO Test'),
+    'GOOGLE_MAPS_KEY' => env('GOOGLE_MAPS_KEY', ''),
 
     /*
     |--------------------------------------------------------------------------

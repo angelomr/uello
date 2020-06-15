@@ -11,7 +11,7 @@
         {!! csrf_field() !!}
         <div class="form-row col-12">
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <input id="search" name="search" value="" class="form-control" type="text"
+            <input id="search" name="search" value="{{ $request->search ?: ''  }}" class="form-control" type="text"
                     placeholder="Busca Livre...">
                 <small>Ex: Nome ou E-mail</small>
             </div>
@@ -46,15 +46,19 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach($customers as $customer)
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ $customer->name }}</td>
+                    <td>{{ $customer->email }}</td>
+                    <td>{{ $customer->date_birth }}</td>
+                    <td>{{ $customer->cpf }}</td>
+                    <td>{{ $customer->Addresses }}</td>
+                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
+    {{ $customers->render() }}
 </div>
 @endsection
 @section('scripts')
@@ -65,4 +69,5 @@
         }
     }
 </script>
+
 @endsection
