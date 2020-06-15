@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<form id="formCustomerImportCSV" style="display: none;" method="post" enctype="multipart/form-data">
+<form id="formCustomerImportCSV" action="{{ url('customers/import') }}" style="display: none;" method="post" enctype="multipart/form-data">
     {!! csrf_field() !!}
     <input type="file" id="customerCSV" name="customerCSV" onchange="importCSV()" />
 </form>
@@ -50,7 +50,7 @@
                 <tr>
                     <td>{{ $customer->name }}</td>
                     <td>{{ $customer->email }}</td>
-                    <td>{{ $customer->date_birth }}</td>
+                    <td>{{ isset($customer->date_birth) ? $customer->date_birth->format('d/m/Y') : '' }}</td>
                     <td>{{ $customer->cpf }}</td>
                     <td>{{ $customer->Addresses }}</td>
                 </tr>

@@ -17,12 +17,11 @@ class CreateAddresses extends Migration
             $table->id();
             $table->integer('customer_id')->references('id')->on('customers');
             $table->string('address');
-            $table->string('number');
-            $table->string('complement')->nullable();
+            $table->string('number', 20);
+            $table->string('complement', 20)->nullable();
             $table->string('neighborhood');
             $table->string('city');
-            $table->string('state');
-            $table->integer('cep');
+            $table->string('cep', 9);
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
             $table->double('distance');

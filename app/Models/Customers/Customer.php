@@ -15,6 +15,10 @@ class Customer extends Model
         'date_birth'
     ];
 
+    protected $dates = [
+        'date_birth'
+    ];
+
     public function scopeFilters($query)
     {
         global $request;
@@ -34,6 +38,6 @@ class Customer extends Model
     public function Addresses()
     {
         return $this->hasMany('App\Models\Customers\Address', 'customer_id');
-    } 
+    }
 
 }

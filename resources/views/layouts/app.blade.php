@@ -18,6 +18,7 @@
 
         <main class="py-4 main-general">
             <div class="container-fluid">
+                @include('layouts.alerts')
                 @yield('content')
             </div>
         </main>
