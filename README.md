@@ -48,11 +48,11 @@
 > Fernando Sartori;fernando.sartori@uello.com.br;11/03/1975;987.654.321-09;Rua Ipanema, 686 Conj 1 - Brás - São Paulo;03164-200
 
 **Dados para Instalação:**
-> Requisitos: Docker (https://docs.docker.com) e Docker Compose (https://docs.docker.com/compose/)
-> git clone https://github.com/angelomr/uello.git
-> cd uello
-> sudo ./run.sh
-> Acessar o navegador no endereço: http://localhost:4080
+- Requisitos: Docker (https://docs.docker.com) e Docker Compose (https://docs.docker.com/compose/)
+- git clone https://github.com/angelomr/uello.git
+- cd uello
+- sudo ./run.sh
+- Acessar o navegador no endereço: http://localhost:4080
 
 **Outras informações**
-> Pasta docs contem o arquivo csv para teste e o dump do banco de dados para análise da estrutura.
+- Pasta docs contem o arquivo csv para teste e o dump do banco de dados para análise da estrutura.
