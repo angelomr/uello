@@ -56,3 +56,4 @@
 
 **Outras informações**
 - Pasta docs contem o arquivo csv para teste e o dump do banco de dados para análise da estrutura.
+- Projeto criado com PHP 7.3, Framework Laravel 7 e MySQL 5.7 
