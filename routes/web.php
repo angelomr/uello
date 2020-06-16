@@ -20,5 +20,6 @@ Route::get('/', function () {
 Route::group(['prefix' =>'customers'], function (){
     Route::any('/', 'Customers\CustomerController@index');
     Route::any('import', 'Customers\CustomerController@import');
+    Route::get('delete-all', 'Customers\CustomerController@deleteAll');
 });
 

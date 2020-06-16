@@ -15,6 +15,7 @@ return [
 
     'name' => env('APP_NAME', 'UELLO Test'),
     'GOOGLE_MAPS_KEY' => env('GOOGLE_MAPS_KEY', ''),
+    'GOOGLE_ORIGIN' => env('GOOGLE_ORIGIN', 'Avenida Dr. Gastão Vidigal, 1132 - Vila Leopoldina - 05314-010'),
 
     /*
     |--------------------------------------------------------------------------

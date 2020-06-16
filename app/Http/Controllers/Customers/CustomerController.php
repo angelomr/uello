@@ -6,16 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Utils\Util;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 use App\Models\Customers\Customer;
 use App\Models\Customers\Address;
+use App\Services\Google;
+
 
 class CustomerController extends Controller
 {
     public function index(Request $request)
     {
+        $directions = [];
+
         $customers = Customer::filters()
-            ->orderBy('name')
+            ->select('customers.*', \DB::raw('(SELECT distance FROM addresses WHERE customer_id = customers.id LIMIT 1) as distance'))
+            ->orderBy('distance')
             ->with('Address');
 
         if (isset($request->exportCSV)) {
@@ -24,7 +30,21 @@ class CustomerController extends Controller
 
         $customers = $customers->paginate(5);
 
-        return view('customers.index', compact('request', 'customers'));
+        $addresses = [];
+        foreach ($customers as $customer) {
+            if (isset($customer->Address)) {
+                $addresses[] = $customer->Address;
+            }
+        }
+        // dd($addresses);
+        if (count($addresses) > 0) {
+            $addresses = Collect($addresses);
+            $directions = Google::getDirections($addresses);
+            // dd(Google::getDistance(implode('|', $addresses)));
+        }
+
+
+        return view('customers.index', compact('request', 'customers', 'directions'));
     }
 
     public function import(Request $request)
@@ -33,7 +53,6 @@ class CustomerController extends Controller
             $file = fopen($request->customerCSV->getRealPath(), "r");
             $qtt = 0;
             $sucess = 0;
-            echo '<pre>';
             while (($row = fgetcsv($file, 10000, ";")) !== FALSE) {
                 if ($qtt > 0 && trim($row[0]) != "") {
                     $customer = $this->save($row);
@@ -42,6 +61,7 @@ class CustomerController extends Controller
                 }
                 $qtt++;
             }
+            
             session()->flash('flash_message', "<h2>Importado com sucesso!</h2> Linhas importadas: {$sucess}");
             return redirect('customers');
         } else {
@@ -81,9 +101,17 @@ class CustomerController extends Controller
         $address->complement = $parse->complement;
         $address->neighborhood = $parse->neighborhood;
         $address->city = $parse->city;
-        $address->latitude = '0';
-        $address->longitude = '0';
-        $address->distance = '0';
+        $coordinates = Google::getLatLong($data[4]);
+        if (isset($coordinates->results[0]->geometry->location)) {
+            $address->latitude = $coordinates->results[0]->geometry->location->lat;
+            $address->longitude = $coordinates->results[0]->geometry->location->lng;
+        } else {
+            $address->latitude = '0';
+            $address->longitude = '0';
+        }
+        $distance = Google::getDistance($data[4]);
+        // dd($distance);
+        $address->distance = $distance->rows[0]->elements[0]->distance->value ?: 0;
         $address->save();
     }
 
@@ -96,7 +124,14 @@ class CustomerController extends Controller
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Cache-Control: private', false);
-        
         return view('customers.csv', compact('customers'))->render();
+    }
+
+    public function deleteAll()
+    {
+        Address::truncate();
+        Customer::truncate();
+        session()->flash('flash_message', "<h2>Clientes Apagados com sucesso!</h2>");
+        return redirect('customers');
     }
 }

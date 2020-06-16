@@ -27,7 +27,10 @@ class Customer extends Model
             $query = $query->where(function ($q) use ($request) {
                 $q = $q->where('name', 'like', "%{$request->search}%")
                     ->orWhere('email', 'like', "%{$request->search}%")
-                ;
+                    ->orWhereHas('Address', function($address) use ($request) {
+                        $address->where('address', 'like', "%{$request->search}%")
+                            ->orWhere('neighborhood', 'like', "%{$request->search}%");
+                    });
             });
         }
         //dd($request->all());
