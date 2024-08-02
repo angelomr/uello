@@ -2,7 +2,7 @@
     <div class="container">
         <a href="{{ url('/') }}">
             <img src="{{ asset('images/logo.png') }}" style="max-height: 35px;" />
-            {{ config('app.name', 'Uello') }}
+            {{ config('app.name', 'Teste de Criação de Rotas') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Menu">
